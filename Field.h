@@ -101,7 +101,7 @@ public:
             int x_v = e->x/32;
             int y_v = e->y/32;
             cout<<"X: "<< x_v; cout<<", Y: "<<y_v;
-            if(v->set_casa(x_v,y_v))
+            if(!v->kibus_exist&&v->set_casa(x_v,y_v))
                 drawing_area->queue_draw();
         }
         cout<<endl;

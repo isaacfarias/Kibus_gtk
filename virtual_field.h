@@ -130,9 +130,11 @@ class virtual_field
 
         int regresa_uno()
         {
+
             int aux = moves->at(0);
             moves->erase(moves->begin());
             return refleja_movimiento(aux);
+
         }
 
         int refleja_movimiento(int i)

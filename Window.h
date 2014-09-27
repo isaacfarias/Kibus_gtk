@@ -21,7 +21,8 @@ class Main_window
     Glib::RefPtr<Gtk::Builder> builder;
     Glib::RefPtr<Gtk::Application> app;
     Glib::Dispatcher *m_dispacher;
-    Glib::Thread *m_thread;
+    Glib::Threads::Thread *m_thread;
+
 
         Main_window(Glib::RefPtr<Gtk::Application> application)
         {
@@ -29,6 +30,7 @@ class Main_window
             cout<<builder<<" GTK_builder from 'interface_layout/interface.glade'" <<endl;
             builder->get_widget("window_main",GTK_window);
             cout<<GTK_window<<" GTK_window creation"<<endl;
+            GTK_window->signal_key_press_event().connect(sigc::mem_fun(*this,&Main_window::key_pressed_callback));
             setup_pad();
             setup_panel();
             setup_drawingarea_field();
@@ -36,11 +38,32 @@ class Main_window
             app = application;
             m_dispacher = new Glib::Dispatcher();
             m_dispacher->connect(sigc::mem_fun(*this,&Main_window::update_draw));
-            (*m_dispacher)();
-            //m_thread = Glib::Threads::Thread::create(sigc::bind(sigc::mem_fun(m_Worker, &ExampleWorker::do_work), this));
+
 
 
         }
+
+        bool key_pressed_callback(GdkEventKey *e)
+        {
+            cout<<"Key val"<< e->keyval <<"Hardware"<<e->hardware_keycode<<endl;
+            switch(e->hardware_keycode)
+            {
+            case 25:
+                button_up->clicked();
+                break;
+            case 38:
+                button_left->clicked();
+                break;
+
+            case 39:
+                button_down->clicked();
+                break;
+            case 40:
+                button_right->clicked();
+                break;
+            }
+        }
+
         void update_draw()
         {
             field->drawing_area->queue_draw();
@@ -69,15 +92,20 @@ class Main_window
         {
             cout<<"button_return_callback"<<endl;
 
-            if(field->v->moves->size()>1)
+            if (field->v->moves->size()!=0)
             {
+                m_thread = Glib::Threads::Thread::create(sigc::bind(sigc::mem_fun(this, &Main_window::timer_to_move), this));
                 field->move_kibus(field->regresa_uno(),true);
-                //m_dispacher->emit();
-                //usleep(1000000);
-
             }
 
 
+
+        }
+        void timer_to_move(Main_window *caller)
+        {
+
+            usleep(100000);
+            button_return->clicked();
 
         }
 
@@ -93,10 +121,11 @@ class Main_window
         {
             cout<<"togglebutton_home_callback "<<togglebutton_home->get_active()<<endl;
             field->toogle_casa = togglebutton_home->get_active();
-            if(!field->toogle_casa)
+            if(!field->toogle_casa )
             {
                 field->v->remove_kibus_from_map();
                 field->v->remove_casa();
+                field->v->moves->erase(field->v->moves->begin(),field->v->moves->end());
                 scale_obstacles->set_sensitive(true);
                 field->drawing_area->queue_draw();
             }

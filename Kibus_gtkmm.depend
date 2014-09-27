@@ -6339,7 +6339,7 @@
 	<sigc++/sigc++.h>
 	<gtkmm/scalebutton.h>
 
-1411562236 /home/isaax/Documentos/IA/Kibus_gtkmm/Window.h
+1411850384 /home/isaax/Documentos/IA/Kibus_gtkmm/Window.h
 	<gtkmm.h>
 	<iostream>
 	"Field.h"
@@ -6349,7 +6349,7 @@
 	<gtkmm.h>
 	<iostream>
 
-1411535862 /home/isaax/Documentos/IA/Kibus_gtkmm/Field.h
+1411848642 /home/isaax/Documentos/IA/Kibus_gtkmm/Field.h
 	<gtkmm.h>
 	<iostream>
 	"kibus.h"
@@ -6361,7 +6361,7 @@
 	<gtkmm.h>
 	<iostream>
 
-1411535850 /home/isaax/Documentos/IA/Kibus_gtkmm/virtual_field.h
+1411847903 /home/isaax/Documentos/IA/Kibus_gtkmm/virtual_field.h
 	<iostream>
 	<stdlib.h>
 	<vector>

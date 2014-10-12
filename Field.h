@@ -9,6 +9,10 @@
 #include "virtual_field.h"
 #define size_x 20
 #define size_y 15
+#define TOOGLE_CASA 1
+#define TOOGLE_KIBUS 2
+#define TOOGLE_OBSTACULO 3
+#define TOOGLE_Q_OBSTACULO 4
 using namespace std;
 using namespace Gtk;
 class Field
@@ -21,7 +25,7 @@ public:
     Piedra *piedra;
     Casa *casa;
     Kibus *kibus;
-    bool toogle_casa;
+    int toogle_selected;
     virtual_field *v;
 
     Field(DrawingArea *d)
@@ -38,7 +42,7 @@ public:
         kibus = new Kibus();
         piedra = new Piedra();
         casa = new Casa();
-        toogle_casa = false;
+        toogle_selected = 0;
     }
 
     bool signal_draw_callback(const Cairo::RefPtr<Cairo::Context>& cr)
@@ -89,19 +93,36 @@ public:
         drawing_area->queue_draw();
 
     }
-    int regresa_uno()
-    {
-        return v->regresa_uno();
-    }
+
+
 
     bool signal_button_press_event_callback(GdkEventButton *e)
     {
-        if((e->button==1) && toogle_casa)
+        if((e->button==1))
         {
             int x_v = e->x/32;
             int y_v = e->y/32;
-            cout<<"X: "<< x_v; cout<<", Y: "<<y_v;
-            if(!v->kibus_exist&&v->set_casa(x_v,y_v))
+            cout<<"X: "<< x_v; cout<<", Y: "<<y_v<<endl;
+            switch (toogle_selected)
+            {
+                    case TOOGLE_CASA:
+                        v->set_casa(x_v,y_v);
+                    break;
+                    case TOOGLE_KIBUS:
+                        v->set_kibus(x_v,y_v);
+                        break;
+                    case TOOGLE_OBSTACULO:
+                        v->set_obstaculo(x_v,y_v);
+                        break;
+                    case TOOGLE_Q_OBSTACULO:
+                        v->remove_obstaculo(x_v,y_v);
+                        break;
+                    default:
+                        break;
+
+
+            }
+            v->to_string();
                 drawing_area->queue_draw();
         }
         cout<<endl;
@@ -115,6 +136,11 @@ public:
         cout<<", Y: "<<e->y<<endl;
         #endif // showMotionEvents
         return true;
+    }
+    void set_toogle(int t)
+    {
+        toogle_selected = t;
+
     }
 } ;
 

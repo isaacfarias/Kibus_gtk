@@ -101,69 +101,38 @@ class virtual_field
 
         bool move_kibus_to(int to,bool reflejo = false)
         {
-            bool ret = false;
             if(kibus_exist)
             {
                 switch(to)
                 {
                 case VIRTUAL_UP:
-                    ret = set_kibus(kibus_cell->x,kibus_cell->y-1);
+                    return set_kibus(kibus_cell->x,kibus_cell->y-1);
                     break;
                 case VIRTUAL_DOWN:
-                    ret = set_kibus(kibus_cell->x,kibus_cell->y+1);
+                    return set_kibus(kibus_cell->x,kibus_cell->y+1);
                     break;
                 case VIRTUAL_LEFT:
-                    ret = set_kibus(kibus_cell->x-1,kibus_cell->y);
+                    return set_kibus(kibus_cell->x-1,kibus_cell->y);
                     break;
                 case VIRTUAL_RIGHT:
-                    ret = set_kibus(kibus_cell->x+1,kibus_cell->y);
+                    return set_kibus(kibus_cell->x+1,kibus_cell->y);
                     break;
                 }
-                if(ret && !reflejo)
-                {
-                    moves->insert(moves->begin(),to);
-                }
-
             }
 
         }
 
-        int regresa_uno()
-        {
-
-            int aux = moves->at(0);
-            moves->erase(moves->begin());
-            return refleja_movimiento(aux);
-
-        }
-
-        int refleja_movimiento(int i)
-        {
-            switch(i)
-                {
-                case VIRTUAL_UP:
-                    return VIRTUAL_DOWN;
-                    break;
-                case VIRTUAL_DOWN:
-                    return VIRTUAL_UP;
-                    break;
-                case VIRTUAL_LEFT:
-                    return VIRTUAL_RIGHT;
-                    break;
-                case VIRTUAL_RIGHT:
-                    return VIRTUAL_LEFT;
-                    break;
-                }
-        }
         bool set_casa(int x,int y)
         {
             if(field[y][x] == EMPTY)
             {
-                field[y][x] = CASA|KIBUS;
+                remove_casa();
+                field[y][x] = CASA;
                 casa_cell = new cell(x,y);
+                /*
             kibus_exist = true;
             kibus_cell->x = x;
-            kibus_cell->y = y;
+            kibus_cell->y = y;*/
                 return true;
             }
             return false;
@@ -183,6 +152,57 @@ class virtual_field
             field[y][x] = KIBUS;
             return true;
         }
+
+        bool set_obstaculo(int x,int y)
+        {
+            if((x<0 || x>=X_MAX) || (y<0 || y>=Y_MAX))
+                return false;
+            if (field[y][x] != EMPTY)
+                return false;
+            cell c(x,y);
+            int idx = buscar_elemento(available_cells,c);
+            if(idx >=0 )
+            {
+                unavailable_cells->insert(unavailable_cells->begin(), available_cells->at(idx));
+                available_cells->erase(available_cells->begin()+idx);
+                field[y][x] = OBSTACLE;
+            }
+
+        }
+
+        bool remove_obstaculo(int x,int y)
+        {
+            if((x<0 || x>=X_MAX) || (y<0 || y>=Y_MAX))
+                return false;
+            if (field[y][x] != OBSTACLE)
+                return false;
+            cell c(x,y);
+            int idx = buscar_elemento(unavailable_cells,c);
+            if(idx >=0 )
+            {
+                available_cells->insert(available_cells->begin(), unavailable_cells->at(idx));
+                unavailable_cells->erase(unavailable_cells->begin()+idx);
+                field[y][x] = EMPTY;
+            }
+
+        }
+
+        void eliminar_elemento_vector(std::vector <cell*> *v, int idx)
+        {
+
+        }
+
+        int buscar_elemento(std::vector <cell*> *v,cell &c)
+        {
+            for(int j = 0 ;j<v->size();j++)
+                {
+                    cell *aux = v->at(j);
+                    if( (*aux)== c)
+                        return j;
+                }
+                return -1;
+        }
+
         void remove_casa()
         {
             if(casa_cell)
@@ -241,5 +261,7 @@ class virtual_field
     protected:
     private:
 };
+
+
 
 #endif // VIRTUAL_FIELD_H

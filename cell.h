@@ -11,11 +11,15 @@ class cell
         {
             x = xa;
             y = ya;
-            //cout<<x<<" "<<y<<endl;
         }
         virtual ~cell() {}
+        bool operator == (const cell &b)
+{
+    return ((this->x == b.x) && (this->y == b.y));
+}
     protected:
     private:
 };
+
 
 #endif // CELL_H

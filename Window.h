@@ -15,6 +15,10 @@ class Main_window
     Gtk::Scale *scale_obstacles;
     Glib::RefPtr<Gtk::Adjustment> adjustment_obstacles;
     Gtk::ToggleButton *togglebutton_home;
+    Gtk::ToggleButton *togglebutton_kibus;
+    Gtk::ToggleButton *togglebutton_obstaculo;
+    Gtk::ToggleButton *togglebutton_q_obstaculo;
+
     Gtk::DrawingArea * drawingarea_field;
     Field *field;
     Gtk::Label * label_debug;
@@ -30,8 +34,8 @@ class Main_window
             cout<<builder<<" GTK_builder from 'interface_layout/interface.glade'" <<endl;
             builder->get_widget("window_main",GTK_window);
             cout<<GTK_window<<" GTK_window creation"<<endl;
-            GTK_window->signal_key_press_event().connect(sigc::mem_fun(*this,&Main_window::key_pressed_callback));
-            setup_pad();
+            //GTK_window->signal_key_press_event().connect(sigc::mem_fun(*this,&Main_window::key_pressed_callback));
+            //setup_pad();
             setup_panel();
             setup_drawingarea_field();
             builder->get_widget("label_debug",label_debug);
@@ -62,6 +66,7 @@ class Main_window
                 button_right->clicked();
                 break;
             }
+            return true;
         }
 
         void update_draw()
@@ -85,8 +90,15 @@ class Main_window
             adjustment_obstacles->signal_value_changed().connect(sigc::mem_fun(*this,&Main_window::scale_obstacles_callback));
             builder->get_widget("togglebutton_home",togglebutton_home);
             togglebutton_home->signal_toggled().connect(sigc::mem_fun(*this,&Main_window::togglebutton_home_callback));
-
+            builder->get_widget("togglebutton_obstaculo",togglebutton_obstaculo);
+            togglebutton_obstaculo->signal_toggled().connect(sigc::mem_fun(*this,&Main_window::togglebutton_obstaculo_callback));
+            builder->get_widget("togglebutton_kibus",togglebutton_kibus);
+            togglebutton_kibus->signal_toggled().connect(sigc::mem_fun(*this,&Main_window::togglebutton_kibus_callback));
+            builder->get_widget("togglebutton_q_obstaculo",togglebutton_q_obstaculo);
+            togglebutton_q_obstaculo->signal_toggled().connect(sigc::mem_fun(*this,&Main_window::togglebutton_q_obstaculo_callback));
         }
+
+
 
         void button_return_callback()
         {
@@ -95,12 +107,10 @@ class Main_window
             if (field->v->moves->size()!=0)
             {
                 m_thread = Glib::Threads::Thread::create(sigc::bind(sigc::mem_fun(this, &Main_window::timer_to_move), this));
-                field->move_kibus(field->regresa_uno(),true);
             }
 
-
-
         }
+
         void timer_to_move(Main_window *caller)
         {
 
@@ -120,18 +130,104 @@ class Main_window
         void togglebutton_home_callback()
         {
             cout<<"togglebutton_home_callback "<<togglebutton_home->get_active()<<endl;
-            field->toogle_casa = togglebutton_home->get_active();
-            if(!field->toogle_casa )
+
+
+            if(!togglebutton_home->get_active())
             {
-                field->v->remove_kibus_from_map();
-                field->v->remove_casa();
-                field->v->moves->erase(field->v->moves->begin(),field->v->moves->end());
+                //field->v->remove_kibus_from_map();
+                //field->v->remove_casa();
+                //field->v->moves->erase(field->v->moves->begin(),field->v->moves->end());
                 scale_obstacles->set_sensitive(true);
-                field->drawing_area->queue_draw();
             }
             else
             {
                 scale_obstacles->set_sensitive(false);
+                set_toogle_on_virtual_field(TOOGLE_CASA);
+            }
+        }
+
+        void togglebutton_kibus_callback()
+        {
+            cout<<"togglebutton_kibus_callback "<<togglebutton_kibus->get_active()<<endl;
+
+
+            if(!togglebutton_kibus->get_active())
+            {
+                //field->v->remove_kibus_from_map();
+                //field->v->remove_casa();
+                //field->v->moves->erase(field->v->moves->begin(),field->v->moves->end());
+                scale_obstacles->set_sensitive(true);
+            }
+            else
+            {
+                scale_obstacles->set_sensitive(false);
+                set_toogle_on_virtual_field(TOOGLE_KIBUS);
+            }
+        }
+
+        void togglebutton_obstaculo_callback()
+        {
+            cout<<"togglebutton_obstaculo_callback "<<togglebutton_obstaculo->get_active()<<endl;
+
+
+            if(!togglebutton_obstaculo->get_active())
+            {
+                //field->v->remove_kibus_from_map();
+                //field->v->remove_casa();
+                //field->v->moves->erase(field->v->moves->begin(),field->v->moves->end());
+                scale_obstacles->set_sensitive(true);
+            }
+            else
+            {
+                scale_obstacles->set_sensitive(false);
+                set_toogle_on_virtual_field(TOOGLE_OBSTACULO);
+            }
+        }
+
+        void togglebutton_q_obstaculo_callback()
+        {
+            cout<<"togglebutton_q_obstaculo_callback "<<togglebutton_q_obstaculo->get_active()<<endl;
+
+
+            if(!togglebutton_q_obstaculo->get_active())
+            {
+                //field->v->remove_kibus_from_map();
+                //field->v->remove_casa();
+                //field->v->moves->erase(field->v->moves->begin(),field->v->moves->end());
+                scale_obstacles->set_sensitive(true);
+            }
+            else
+            {
+                scale_obstacles->set_sensitive(false);
+                set_toogle_on_virtual_field(TOOGLE_Q_OBSTACULO);
+            }
+        }
+
+        void set_toogle_on_virtual_field(int t)
+        {
+            field->set_toogle(t);
+            switch(t)
+            {
+            case TOOGLE_CASA:
+                togglebutton_kibus->set_active(false);
+                togglebutton_obstaculo->set_active(false);
+                togglebutton_q_obstaculo->set_active(false);
+                break;
+            case TOOGLE_KIBUS:
+                togglebutton_home->set_active(false);
+                togglebutton_obstaculo->set_active(false);
+                togglebutton_q_obstaculo->set_active(false);
+                break;
+            case TOOGLE_OBSTACULO:
+                togglebutton_home->set_active(false);
+                togglebutton_kibus->set_active(false);
+                togglebutton_q_obstaculo->set_active(false);
+                break;
+                case TOOGLE_Q_OBSTACULO:
+                togglebutton_home->set_active(false);
+                togglebutton_kibus->set_active(false);
+                togglebutton_obstaculo->set_active(false);
+                break;
             }
         }
 

@@ -104,9 +104,12 @@ class Main_window
         {
             cout<<"button_return_callback"<<endl;
 
-            if (field->v->moves->size()!=0)
+            if (!field->v->esta_en_casa())
             {
+
+                field->move_kibus_bresenham();
                 m_thread = Glib::Threads::Thread::create(sigc::bind(sigc::mem_fun(this, &Main_window::timer_to_move), this));
+
             }
 
         }

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1411257922 source:/home/isaax/Documentos/IA/Kibus_gtkmm/main.cpp
+1413162534 source:/home/isaax/Documentos/IA/Kibus_gtkmm/main.cpp
 	<gtkmm.h>
 	"Window.h"
 
@@ -6339,7 +6339,7 @@
 	<sigc++/sigc++.h>
 	<gtkmm/scalebutton.h>
 
-1411850384 /home/isaax/Documentos/IA/Kibus_gtkmm/Window.h
+1413161557 /home/isaax/Documentos/IA/Kibus_gtkmm/Window.h
 	<gtkmm.h>
 	<iostream>
 	"Field.h"
@@ -6349,7 +6349,7 @@
 	<gtkmm.h>
 	<iostream>
 
-1411848642 /home/isaax/Documentos/IA/Kibus_gtkmm/Field.h
+1413154973 /home/isaax/Documentos/IA/Kibus_gtkmm/Field.h
 	<gtkmm.h>
 	<iostream>
 	"kibus.h"
@@ -6361,16 +6361,20 @@
 	<gtkmm.h>
 	<iostream>
 
-1411847903 /home/isaax/Documentos/IA/Kibus_gtkmm/virtual_field.h
+1413260507 /home/isaax/Documentos/IA/Kibus_gtkmm/virtual_field.h
 	<iostream>
 	<stdlib.h>
 	<vector>
+	"utilities.h"
 	"cell.h"
 
-1411446570 /home/isaax/Documentos/IA/Kibus_gtkmm/cell.h
+1413248091 /home/isaax/Documentos/IA/Kibus_gtkmm/cell.h
 	<iostream>
 
 1411525424 /home/isaax/Documentos/IA/Kibus_gtkmm/piedra.h
 
 1411527747 /home/isaax/Documentos/IA/Kibus_gtkmm/casa.h
+
+1413140878 /home/isaax/Documentos/IA/Kibus_gtkmm/utilities.h
+	"cell.h"
 

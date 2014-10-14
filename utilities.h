@@ -3,7 +3,7 @@
 
 #include "cell.h"
 
-*cell bresenham(cell a,cell b)
+cell* bresenham_next_cell(cell a,cell b)
 {
     int xa = a.x, ya = a.y, xb = b.x, yb = b.y;
     int x, y, dx, dy, inc_x, inc_y, p;

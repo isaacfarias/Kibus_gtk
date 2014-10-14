@@ -44,6 +44,7 @@
 		<Unit filename="kibus.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="piedra.h" />
+		<Unit filename="utilities.h" />
 		<Unit filename="virtual_field.h" />
 		<Extensions>
 			<code_completion />

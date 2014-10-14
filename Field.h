@@ -93,6 +93,13 @@ public:
         drawing_area->queue_draw();
 
     }
+    void move_kibus_bresenham()
+    {
+
+        v->move_kibus_bresenham();
+        drawing_area->queue_draw();
+
+    }
 
 
 

@@ -129,7 +129,6 @@ public:
 
 
             }
-            v->to_string();
                 drawing_area->queue_draw();
         }
         cout<<endl;

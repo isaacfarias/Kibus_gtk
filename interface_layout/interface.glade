@@ -4,7 +4,6 @@
   <requires lib="gtk+" version="3.10"/>
   <object class="GtkAdjustment" id="adjustment_obstacles">
     <property name="upper">80</property>
-    <property name="value">20</property>
     <property name="step_increment">5</property>
     <property name="page_increment">10</property>
   </object>
@@ -35,10 +34,75 @@
             <property name="hexpand">False</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkLabel" id="label_debug">
+              <object class="GtkBox" id="box5">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Kibus</property>
+                <property name="homogeneous">True</property>
+                <child>
+                  <object class="GtkButton" id="button_guardar">
+                    <property name="label" translatable="yes">Guardar</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_mapa_1">
+                    <property name="label" translatable="yes">mapa 1</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_mapa_2">
+                    <property name="label" translatable="yes">mapa 2</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_mapa _3">
+                    <property name="label" translatable="yes">mapa 3</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_mapa_4">
+                    <property name="label" translatable="yes">mapa 4</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>

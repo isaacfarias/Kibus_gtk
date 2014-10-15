@@ -12,6 +12,12 @@ class cell
             x = xa;
             y = ya;
         }
+        cell(int xa, int ya,int va)
+        {
+            x = xa;
+            y = ya;
+            v = va;
+        }
         virtual ~cell() {}
         bool operator <=(const cell &b)
         {
@@ -35,7 +41,7 @@ class cell
 }
 void to_string()
 {
-    cout<<"Cell: "<<x<<", "<<y<<endl;
+    cout<<"Cell: "<<x<<", "<<y<<", "<<v<<endl;
 }
     protected:
     private:

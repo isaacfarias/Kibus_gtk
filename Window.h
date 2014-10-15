@@ -12,6 +12,8 @@ class Main_window
     Gtk::Window *GTK_window;
     Gtk::Button *button_up,*button_down,*button_left,*button_right;
     Gtk::Button *button_return;
+    Gtk::Button *button_guardar;
+    Gtk::Button *button_mapa_1;
     Gtk::Scale *scale_obstacles;
     Glib::RefPtr<Gtk::Adjustment> adjustment_obstacles;
     Gtk::ToggleButton *togglebutton_home;
@@ -21,7 +23,6 @@ class Main_window
 
     Gtk::DrawingArea * drawingarea_field;
     Field *field;
-    Gtk::Label * label_debug;
     Glib::RefPtr<Gtk::Builder> builder;
     Glib::RefPtr<Gtk::Application> app;
     Glib::Dispatcher *m_dispacher;
@@ -34,11 +35,17 @@ class Main_window
             cout<<builder<<" GTK_builder from 'interface_layout/interface.glade'" <<endl;
             builder->get_widget("window_main",GTK_window);
             cout<<GTK_window<<" GTK_window creation"<<endl;
-            //GTK_window->signal_key_press_event().connect(sigc::mem_fun(*this,&Main_window::key_pressed_callback));
+            GTK_window->signal_key_press_event().connect(sigc::mem_fun(*this,&Main_window::key_pressed_callback));
+
+            builder->get_widget("button_guardar",button_guardar);
+            button_guardar->signal_clicked().connect(sigc::mem_fun(*this,&Main_window::button_guardar_callback));
+
+            builder->get_widget("button_mapa_1",button_mapa_1);
+            button_mapa_1->signal_clicked().connect(sigc::mem_fun(*this,&Main_window::button_mapa_1_callback));
+
             //setup_pad();
             setup_panel();
             setup_drawingarea_field();
-            builder->get_widget("label_debug",label_debug);
             app = application;
             m_dispacher = new Glib::Dispatcher();
             m_dispacher->connect(sigc::mem_fun(*this,&Main_window::update_draw));
@@ -47,23 +54,34 @@ class Main_window
 
         }
 
+        void button_guardar_callback()
+        {
+            field->v->save_field("Mapa.txt");
+        }
+
+        void button_mapa_1_callback()
+        {
+            field->v->load_field("Mapa.txt");
+        }
+
         bool key_pressed_callback(GdkEventKey *e)
         {
             cout<<"Key val"<< e->keyval <<"Hardware"<<e->hardware_keycode<<endl;
             switch(e->hardware_keycode)
             {
             case 25:
-                button_up->clicked();
+                //button_up->clicked();
                 break;
             case 38:
-                button_left->clicked();
+                //button_left->clicked();
                 break;
-
             case 39:
-                button_down->clicked();
+                //Save
+                //button_down->clicked();
                 break;
-            case 40:
-                button_right->clicked();
+            case 46:
+                //Load
+                //button_right->clicked();
                 break;
             }
             return true;

@@ -48,8 +48,6 @@ public:
     bool signal_draw_callback(const Cairo::RefPtr<Cairo::Context>& cr)
     {
         cairo_context = cr;
-        cout<<"signal_draw_callback"<<endl;
-        //kibus->drawing_in_background(background);
         background_with_draws = background->copy();
         for (int y = 0;y<size_y;y++)
         {

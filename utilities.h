@@ -3,7 +3,7 @@
 
 #include "cell.h"
 
-cell* bresenham_next_cell(cell a,cell b)
+cell bresenham_next_cell(cell a,cell b)
 {
     int xa = a.x, ya = a.y, xb = b.x, yb = b.y;
     int x, y, dx, dy, inc_x, inc_y, p;
@@ -43,7 +43,7 @@ cell* bresenham_next_cell(cell a,cell b)
                    p= p+dx;
                  }
                x += inc_x;
-               return new cell(x,y); //glVertex2f(x,y); //
+               return cell(x,y); //glVertex2f(x,y); //
              }
       }
     else
@@ -59,7 +59,7 @@ cell* bresenham_next_cell(cell a,cell b)
                          p= p+dy;
                        }
                      y= y+inc_y;
-                    return new cell(x,y); //glVertex2f(x,y);
+                    return cell(x,y); //glVertex2f(x,y);
                    }
            }
 

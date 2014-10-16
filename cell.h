@@ -27,10 +27,7 @@ class cell
         {
             return this->v >= b.v;
         }
-        bool operator <(const cell &b)
-        {
-            return this->v < b.v;
-        }
+
         bool operator >(const cell &b)
         {
             return this->v > b.v;
@@ -46,6 +43,11 @@ void to_string()
     protected:
     private:
 };
+
+bool operator <(const cell &a,const cell &b)
+        {
+            return a.v < b.v;
+        }
 
 
 #endif // CELL_H

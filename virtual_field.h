@@ -39,7 +39,7 @@ class virtual_field
         bool home_alone;
         std::vector <cell*> *available_cells;
         std::vector <cell*> *unavailable_cells;
-        std::vector <cell*> *vecinos_de_kibus_1;
+        std::vector <cell> *vecinos_de_kibus_1;
         std::vector <cell*> *vecinos_de_kibus_2;
         std::vector <cell*> *vecinos_de_kibus_3;
         std::vector <int> *moves;
@@ -53,7 +53,7 @@ class virtual_field
             kibus_exist = false;
             available_cells = new std::vector<cell*>();
             unavailable_cells = new std::vector<cell*>();
-            vecinos_de_kibus_1 = new std::vector<cell*>();
+            vecinos_de_kibus_1 = new std::vector<cell>();
             vecinos_de_kibus_2 = new std::vector<cell*>();
             vecinos_de_kibus_3 = new std::vector<cell*>();
             init_field();
@@ -65,14 +65,11 @@ class virtual_field
             }
             //print_cell_vector();
             to_string();
-            cout<<W_1<<endl;
-            cout<<W_2<<endl;
             //number_of_items(20);
         }
 
         void generar_vecinos()
         {
-            cell* aux;
             vecinos_de_kibus_1->clear();
             vecinos_de_kibus_2->clear();
             vecinos_de_kibus_3->clear();
@@ -89,9 +86,8 @@ class virtual_field
 
                         if(es_(field[new_y][new_x],WALKABLE))
                         {
-                            aux = new cell(new_x,new_y,field[new_y][new_x]);
+                            cell aux = cell(new_x,new_y,field[new_y][new_x]);
                             vecinos_de_kibus_1->insert(vecinos_de_kibus_1->begin(),aux);
-                            aux->to_string();
 
                             /*
                             switch(field[new_y][new_x])
@@ -113,12 +109,12 @@ class virtual_field
                     }
                 }
             }
+            std::random_shuffle(vecinos_de_kibus_1->begin(),vecinos_de_kibus_1->end());
             std::sort(vecinos_de_kibus_1->begin(),vecinos_de_kibus_1->end());
-            print_cell_vector();
             int a =0;
         }
 
-        cell* toma_vecino_random()
+        cell toma_vecino_random()
         {
             int tam = vecinos_de_kibus_1->size();
             int idx;
@@ -133,7 +129,7 @@ class virtual_field
                 if(tam)
                 {
                     idx = rand() %tam;
-                    return vecinos_de_kibus_2->at(idx);
+                    return (*vecinos_de_kibus_2->at(idx));
                 }
                 else
                 {
@@ -141,10 +137,8 @@ class virtual_field
                     if(tam)
                     {
                         idx = rand() %tam;
-                        return vecinos_de_kibus_3->at(idx);
+                        return (*vecinos_de_kibus_3->at(idx));
                     }
-                    else
-                        return NULL;
                 }
             }
 
@@ -156,9 +150,9 @@ class virtual_field
 
         bool esta_en_casa()
         {
-            cell *aux = bresenham_next_cell((*kibus_cell),(*casa_cell));
-            bool ret = (*casa_cell) == (*aux);
-            free(aux);
+            cell aux = bresenham_next_cell((*kibus_cell),(*casa_cell));
+            bool ret = (*casa_cell) == aux;
+            //free(aux);
             return ret;
         }
 
@@ -211,18 +205,17 @@ class virtual_field
         {
             if(esta_en_casa())
                 return false;
-            cell *aux = bresenham_next_cell((*kibus_cell),(*casa_cell));
-            if(!set_kibus(aux->x,aux->y))
+            cell aux = bresenham_next_cell((*kibus_cell),(*casa_cell));
+            if((field[aux.y][aux.x]>24)||!set_kibus(aux.x,aux.y))
             {
                 int aux_value = (field[kibus_cell->y][kibus_cell->x]>>4)+1;
                 int deb1 = (aux_value<<4);
                 int deb2 =(field[kibus_cell->y][kibus_cell->x]&0b1111);
                 int deb3 = field[kibus_cell->y][kibus_cell->x] = (field[kibus_cell->y][kibus_cell->x]&0b1111)|deb1;
-                free(aux);
+                //free(aux);
                 generar_vecinos();
                 aux = toma_vecino_random();
-                if (aux)
-                    set_kibus(aux->x,aux->y);
+                    set_kibus(aux.x,aux.y);
             }
 
 
@@ -281,6 +274,7 @@ class virtual_field
             kibus_cell->x = x;
             kibus_cell->y = y;
             field[y][x] = field[y][x]|KIBUS;
+            to_string();
             generar_vecinos();
             return true;
         }
@@ -382,7 +376,7 @@ class virtual_field
         {
             for (unsigned int i = 0;i<vecinos_de_kibus_1->size();i++)
             {
-                cout<<vecinos_de_kibus_1->at(i)->x<<" "<<vecinos_de_kibus_1->at(i)->y<<", "<<vecinos_de_kibus_1->at(i)->v<<endl;
+                cout<<vecinos_de_kibus_1->at(i).x<<" "<<vecinos_de_kibus_1->at(i).y<<", "<<vecinos_de_kibus_1->at(i).v<<endl;
             }
         }
         int number_of_items(int p)

@@ -78,7 +78,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button_mapa _3">
+                  <object class="GtkButton" id="button_mapa_3">
                     <property name="label" translatable="yes">mapa 3</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -91,8 +91,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button_mapa_4">
-                    <property name="label" translatable="yes">mapa 4</property>
+                  <object class="GtkButton" id="button_reset">
+                    <property name="label" translatable="yes">Reset</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>

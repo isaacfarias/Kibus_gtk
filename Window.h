@@ -14,6 +14,9 @@ class Main_window
     Gtk::Button *button_return;
     Gtk::Button *button_guardar;
     Gtk::Button *button_mapa_1;
+    Gtk::Button *button_mapa_2;
+    Gtk::Button *button_mapa_3;
+    Gtk::Button *button_reset;
     Gtk::Scale *scale_obstacles;
     Glib::RefPtr<Gtk::Adjustment> adjustment_obstacles;
     Gtk::ToggleButton *togglebutton_home;
@@ -43,6 +46,15 @@ class Main_window
             builder->get_widget("button_mapa_1",button_mapa_1);
             button_mapa_1->signal_clicked().connect(sigc::mem_fun(*this,&Main_window::button_mapa_1_callback));
 
+            builder->get_widget("button_mapa_2",button_mapa_2);
+            button_mapa_2->signal_clicked().connect(sigc::mem_fun(*this,&Main_window::button_mapa_2_callback));
+
+            builder->get_widget("button_mapa_3",button_mapa_3);
+            button_mapa_3->signal_clicked().connect(sigc::mem_fun(*this,&Main_window::button_mapa_3_callback));
+
+            builder->get_widget("button_reset",button_reset);
+            button_reset->signal_clicked().connect(sigc::mem_fun(*this,&Main_window::button_reset_callback));
+
             //setup_pad();
             setup_panel();
             setup_drawingarea_field();
@@ -54,6 +66,7 @@ class Main_window
 
         }
 
+
         void button_guardar_callback()
         {
             field->v->save_field("Mapa.txt");
@@ -61,7 +74,25 @@ class Main_window
 
         void button_mapa_1_callback()
         {
-            field->v->load_field("Mapa.txt");
+            field->v->load_field("Mapa1.txt");
+            update_draw();
+        }
+
+        void button_mapa_2_callback()
+        {
+            field->v->load_field("Mapa2.txt");
+            update_draw();
+        }
+
+        void button_mapa_3_callback()
+        {
+            field->v->load_field("Mapa3.txt");
+            update_draw();
+        }
+        void button_reset_callback()
+        {
+            field->v->load_field("MapaR.txt");
+            update_draw();
         }
 
         bool key_pressed_callback(GdkEventKey *e)
@@ -120,7 +151,7 @@ class Main_window
 
         void button_return_callback()
         {
-            cout<<"button_return_callback"<<endl;
+            //cout<<"button_return_callback"<<endl;
 
             if (!field->v->esta_en_casa())
             {
@@ -142,7 +173,7 @@ class Main_window
 
         void scale_obstacles_callback()
         {
-            cout<<"scale_obstacles_callback "<<adjustment_obstacles->get_value()<<endl;
+            //cout<<"scale_obstacles_callback "<<adjustment_obstacles->get_value()<<endl;
             int values = adjustment_obstacles->get_value();
             field->v->set_random(values);
             field->drawing_area->queue_draw();

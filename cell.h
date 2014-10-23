@@ -38,7 +38,7 @@ class cell
 }
 void to_string()
 {
-    cout<<"Cell: "<<x<<", "<<y<<", "<<v<<endl;
+    //cout<<"Cell: "<<x<<", "<<y<<", "<<v<<endl;
 }
     protected:
     private:

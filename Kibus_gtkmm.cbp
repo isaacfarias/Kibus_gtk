@@ -38,6 +38,7 @@
 		</Linker>
 		<Unit filename="Field.h" />
 		<Unit filename="Pad.h" />
+		<Unit filename="Pasto.h" />
 		<Unit filename="Window.h" />
 		<Unit filename="casa.h" />
 		<Unit filename="cell.h" />

@@ -5,6 +5,7 @@
 #include <iostream>
 #include "kibus.h"
 #include "piedra.h"
+#include "Pasto.h"
 #include "casa.h"
 #include "virtual_field.h"
 #define size_x 20
@@ -25,6 +26,9 @@ public:
     Piedra *piedra;
     Casa *casa;
     Kibus *kibus;
+    Pasto *pasto1;
+    Pasto *pasto2;
+    Pasto *pasto3;
     int toogle_selected;
     virtual_field *v;
 
@@ -42,6 +46,9 @@ public:
         kibus = new Kibus();
         piedra = new Piedra();
         casa = new Casa();
+        pasto1 = new Pasto("images/pasto1.png");
+        pasto2 = new Pasto("images/pasto2.png");
+        pasto3 = new Pasto("images/pasto3.png");
         toogle_selected = 0;
     }
 
@@ -59,8 +66,17 @@ public:
                         piedra->drawing_in_background(background_with_draws,x,y);
                 if (aux & CASA)
                         casa->drawing_in_background(background_with_draws,x,y);
+
+                if((aux>>4) == 1)
+                        pasto1->drawing_in_background(background_with_draws,x,y);
+                if((aux>>4) == 2)
+                        pasto2->drawing_in_background(background_with_draws,x,y);
+                if((aux>>4) >= 3)
+                        pasto3->drawing_in_background(background_with_draws,x,y);
                 if (aux&KIBUS)
                         kibus->drawing_in_background(background_with_draws,x,y);
+
+
             }
         }
         Gdk::Cairo::set_source_pixbuf(cr,background_with_draws);

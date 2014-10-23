@@ -6,6 +6,7 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
+#include <iomanip>
 #include "utilities.h"
 #include "cell.h"
 
@@ -64,7 +65,7 @@ class virtual_field
                 insert_random();
             }
             //print_cell_vector();
-            to_string();
+            //to_string();
             //number_of_items(20);
         }
 
@@ -87,6 +88,7 @@ class virtual_field
                         if(es_(field[new_y][new_x],WALKABLE))
                         {
                             cell aux = cell(new_x,new_y,field[new_y][new_x]);
+                            if(!(aux == (*ultima_pos)))
                             vecinos_de_kibus_1->insert(vecinos_de_kibus_1->begin(),aux);
 
                             /*
@@ -109,6 +111,8 @@ class virtual_field
                     }
                 }
             }
+            if(vecinos_de_kibus_1->size()==0)
+                vecinos_de_kibus_1->insert(vecinos_de_kibus_1->begin(),(*ultima_pos));
             std::random_shuffle(vecinos_de_kibus_1->begin(),vecinos_de_kibus_1->end());
             std::sort(vecinos_de_kibus_1->begin(),vecinos_de_kibus_1->end());
             int a =0;
@@ -274,7 +278,7 @@ class virtual_field
             kibus_cell->x = x;
             kibus_cell->y = y;
             field[y][x] = field[y][x]|KIBUS;
-            to_string();
+            //to_string();
             generar_vecinos();
             return true;
         }
@@ -367,10 +371,11 @@ class virtual_field
             {
                 for(int j = 0 ;j<X_MAX;j++)
                 {
-                    cout<<field[i][j]<<" ";
+                    cout<<field[i][j]<<setw(4);
                 }
                 cout<<endl;
             }
+            cout<<endl;
         }
         void print_cell_vector()
         {
@@ -409,11 +414,21 @@ class virtual_field
         void load_field(char fileName[])
         {
             ifstream in_file(fileName);
+            init_field();
             for (int i = 0;i<Y_MAX;i++)
             {
                 for (int j=0;j<X_MAX;j++)
                 {
-                    in_file>>field[i][j];
+                    int v;
+
+                    in_file>>v;
+                    if(es_(v,OBSTACLE))
+                    {
+
+                        set_obstaculo(j,i);
+                    }
+                    else
+                        field[i][j] = v;
                 }
             }
             in_file.close();

@@ -91,6 +91,7 @@ class Main_window
         }
         void button_reset_callback()
         {
+
             field->v->load_field("MapaR.txt");
             update_draw();
         }

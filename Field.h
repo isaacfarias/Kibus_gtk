@@ -40,6 +40,7 @@ public:
         //drawing_area->signal_motion_notify_event().connect(sigc::mem_fun(*this,&Field::signal_motion_notify_event_callback));
         drawing_area->signal_button_press_event().connect(sigc::mem_fun(*this,&Field::signal_button_press_event_callback));
         background = Gdk::Pixbuf::create_from_file("images/background.png");
+
         background_with_draws = background->copy();
         drawing_area->signal_draw().connect(sigc::mem_fun(*this,&Field::signal_draw_callback));
         v=new virtual_field();
@@ -47,8 +48,6 @@ public:
         piedra = new Piedra();
         casa = new Casa();
         pasto1 = new Pasto("images/pasto1.png");
-        pasto2 = new Pasto("images/pasto2.png");
-        pasto3 = new Pasto("images/pasto3.png");
         toogle_selected = 0;
     }
 
@@ -63,18 +62,25 @@ public:
                 int aux = v->field[y][x];
 
                 if (aux&OBSTACLE)
-                        piedra->drawing_in_background(background_with_draws,x,y);
+                {
+                    //background_with_draws->saturate_and_pixelate(background_with_draws,v->get_normalized_temp(aux),false);
+                    piedra->drawing_in_background(background_with_draws,x,y);
+
+                }
+
                 if (aux & CASA)
                         casa->drawing_in_background(background_with_draws,x,y);
 
-                if((aux>>4) == 1)
-                        pasto1->drawing_in_background(background_with_draws,x,y);
-                if((aux>>4) == 2)
-                        pasto2->drawing_in_background(background_with_draws,x,y);
-                if((aux>>4) >= 3)
-                        pasto3->drawing_in_background(background_with_draws,x,y);
-                if (aux&KIBUS)
-                        kibus->drawing_in_background(background_with_draws,x,y);
+                if(v->es_(aux,WALKABLE) )
+                {
+                    //cout<<aux<<","<<v->get_normalized_temp(aux)<<endl;
+                    pasto1->drawing_in_background(background_with_draws,x,y,v->get_normalized_temp(aux>>5));
+                }
+                if(v->es_(aux,KIBUS))
+                {
+                    kibus->drawing_in_background(background_with_draws,x,y);
+                }
+
 
 
             }

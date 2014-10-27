@@ -16,6 +16,8 @@ using std::endl;
 #define X_MAX 20
 #define Y_MAX 15
 
+const float STEP_TEMP  = 3.0/(X_MAX-1);
+
 #define WALKABLE     0b1000
 #define EMPTY        ((1<<4)|WALKABLE)
 #define KIBUS        0b0001
@@ -90,6 +92,8 @@ class virtual_field
                             cell aux = cell(new_x,new_y,field[new_y][new_x]);
                             if(!(aux == (*ultima_pos)))
                             vecinos_de_kibus_1->insert(vecinos_de_kibus_1->begin(),aux);
+
+
 
                             /*
                             switch(field[new_y][new_x])
@@ -250,11 +254,13 @@ class virtual_field
 
         bool set_casa(int x,int y)
         {
-            if(field[y][x] == EMPTY)
+            if(es_(field[y][x],WALKABLE))
             {
                 remove_casa();
                 field[y][x] = CASA;
                 casa_cell = new cell(x,y);
+                calculate_field_temperature();
+                //to_string_temp();
                 /*
             kibus_exist = true;
             kibus_cell->x = x;
@@ -263,6 +269,35 @@ class virtual_field
             }
             return false;
 
+        }
+
+        void calculate_field_temperature()
+        {
+            for(int i = 0;i<Y_MAX;i++)
+            {
+                for(int j = 0 ;j<X_MAX;j++)
+                {
+                    if(es_(field[i][j], WALKABLE))
+                    {
+                        field[i][j] = WALKABLE|(calculate_cell_temperature(*casa_cell,j,i)<<5);
+                    }
+                }
+            }
+        }
+
+        int calculate_cell_temperature(cell casa, int x, int y)
+        {
+            int d_x = ABS((casa.x-x));
+            int d_y = ABS(casa.y-y);
+            if(d_x>d_y)
+                return d_x;
+            else
+                return d_y;
+        }
+
+        float get_normalized_temp(int val)
+        {
+            return val * STEP_TEMP -1;
         }
 
         bool set_kibus(int x, int y)
@@ -280,6 +315,7 @@ class virtual_field
             field[y][x] = field[y][x]|KIBUS;
             //to_string();
             generar_vecinos();
+            to_string();
             return true;
         }
 
@@ -287,7 +323,7 @@ class virtual_field
         {
             if((x<0 || x>=X_MAX) || (y<0 || y>=Y_MAX))
                 return false;
-            if (field[y][x] != EMPTY)
+            if (!es_(field[y][x],WALKABLE))
                 return false;
             cell c(x,y);
             int idx = buscar_elemento(available_cells,c);
@@ -359,10 +395,24 @@ class virtual_field
             {
                 for(int j = 0 ;j<X_MAX;j++)
                 {
-                    field[i][j] = EMPTY;
+                    field[i][j] = WALKABLE;
                     available_cells->insert(available_cells->end(),new cell(j,i));
                 }
             }
+        }
+
+        void to_string_temp()
+        {
+            cout.precision(1);
+            for(int i = 0;i<Y_MAX;i++)
+            {
+                for(int j = 0 ;j<X_MAX;j++)
+                {
+                    cout<<(get_normalized_temp(field[i][j]>>5))<<setw(4);
+                }
+                cout<<endl;
+            }
+            cout<<endl;
         }
 
         void to_string()

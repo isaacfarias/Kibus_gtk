@@ -6349,7 +6349,7 @@
 	<gtkmm.h>
 	<iostream>
 
-1413522961 /home/isaax/Documentos/IA/Kibus_gtkmm/Field.h
+1414375144 /home/isaax/Documentos/IA/Kibus_gtkmm/Field.h
 	<gtkmm.h>
 	<iostream>
 	"kibus.h"
@@ -6362,7 +6362,7 @@
 	<gtkmm.h>
 	<iostream>
 
-1413550762 /home/isaax/Documentos/IA/Kibus_gtkmm/virtual_field.h
+1414375001 /home/isaax/Documentos/IA/Kibus_gtkmm/virtual_field.h
 	<iostream>
 	<stdlib.h>
 	<vector>
@@ -6382,5 +6382,5 @@
 1413419800 /home/isaax/Documentos/IA/Kibus_gtkmm/utilities.h
 	"cell.h"
 
-1413522468 /home/isaax/Documentos/IA/Kibus_gtkmm/Pasto.h
+1414369328 /home/isaax/Documentos/IA/Kibus_gtkmm/Pasto.h
 

@@ -7,16 +7,19 @@ class cell
 {
     public:
         int x,y,v;
+        int extra_data;
         cell(int xa, int ya)
         {
             x = xa;
             y = ya;
+            extra_data = 0;
         }
         cell(int xa, int ya,int va)
         {
             x = xa;
             y = ya;
             v = va;
+            extra_data = 0;
         }
         virtual ~cell() {}
         bool operator <=(const cell &b)

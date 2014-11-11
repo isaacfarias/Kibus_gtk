@@ -30,10 +30,12 @@ class Main_window
     Glib::RefPtr<Gtk::Application> app;
     Glib::Dispatcher *m_dispacher;
     Glib::Threads::Thread *m_thread;
+    int botonazos;
 
 
         Main_window(Glib::RefPtr<Gtk::Application> application)
         {
+            botonazos = 5;
             builder = Gtk::Builder::create_from_file("interface_layout/interface.glade");
             cout<<builder<<" GTK_builder from 'interface_layout/interface.glade'" <<endl;
             builder->get_widget("window_main",GTK_window);
@@ -154,14 +156,34 @@ class Main_window
         {
             //cout<<"button_return_callback"<<endl;
 
-            if (!field->v->esta_en_casa())
+            if (botonazos--&&!field->v->is_at_home)
             {
 
-                field->move_kibus_bresenham();
+                field->mover_abejas();
                 m_thread = Glib::Threads::Thread::create(sigc::bind(sigc::mem_fun(this, &Main_window::timer_to_move), this));
 
             }
+            else
+            {
+                botonazos = 5;
+                move_kibus_in_path();
+                usleep(100000 * (field->v->path->size()+3));
+                if(!field->v->is_at_home)
+                {
+                    button_return_callback();
+                }
+            }
 
+        }
+
+        void move_kibus_in_path()
+        {
+            if(!field->v->path->empty())
+            {
+                field->move_kibus_in_path();
+                usleep(100000);
+                m_thread = Glib::Threads::Thread::create(sigc::bind(sigc::mem_fun(this, &Main_window::timer_to_move_in_path), this));
+            }
         }
 
         void timer_to_move(Main_window *caller)
@@ -169,6 +191,14 @@ class Main_window
 
             usleep(100000);
             button_return->clicked();
+
+        }
+
+        void timer_to_move_in_path(Main_window *caller)
+        {
+
+            usleep(100000);
+            move_kibus_in_path();
 
         }
 
@@ -283,7 +313,7 @@ class Main_window
                 break;
             }
         }
-
+/*
         void setup_pad()
         {
             builder->get_widget("button_up",button_up);
@@ -318,6 +348,7 @@ class Main_window
         {
             field->move_kibus(KIBUS_DOWN);
         }
+        */
         int run()
         {
             return app->run(*GTK_window);

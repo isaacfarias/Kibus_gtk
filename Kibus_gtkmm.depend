@@ -6339,7 +6339,7 @@
 	<sigc++/sigc++.h>
 	<gtkmm/scalebutton.h>
 
-1413550750 /home/isaax/Documentos/IA/Kibus_gtkmm/Window.h
+1415581006 /home/isaax/Documentos/IA/Kibus_gtkmm/Window.h
 	<gtkmm.h>
 	<iostream>
 	"Field.h"
@@ -6349,7 +6349,7 @@
 	<gtkmm.h>
 	<iostream>
 
-1414375144 /home/isaax/Documentos/IA/Kibus_gtkmm/Field.h
+1415567995 /home/isaax/Documentos/IA/Kibus_gtkmm/Field.h
 	<gtkmm.h>
 	<iostream>
 	"kibus.h"
@@ -6357,12 +6357,13 @@
 	"Pasto.h"
 	"casa.h"
 	"virtual_field.h"
+	"Abeja.h"
 
 1411527747 /home/isaax/Documentos/IA/Kibus_gtkmm/kibus.h
 	<gtkmm.h>
 	<iostream>
 
-1414375001 /home/isaax/Documentos/IA/Kibus_gtkmm/virtual_field.h
+1415582108 /home/isaax/Documentos/IA/Kibus_gtkmm/virtual_field.h
 	<iostream>
 	<stdlib.h>
 	<vector>
@@ -6372,7 +6373,7 @@
 	"utilities.h"
 	"cell.h"
 
-1413515121 /home/isaax/Documentos/IA/Kibus_gtkmm/cell.h
+1415237447 /home/isaax/Documentos/IA/Kibus_gtkmm/cell.h
 	<iostream>
 
 1411525424 /home/isaax/Documentos/IA/Kibus_gtkmm/piedra.h
@@ -6383,4 +6384,6 @@
 	"cell.h"
 
 1414369328 /home/isaax/Documentos/IA/Kibus_gtkmm/Pasto.h
+
+1415550611 /home/isaax/Documentos/IA/Kibus_gtkmm/Abeja.h
 

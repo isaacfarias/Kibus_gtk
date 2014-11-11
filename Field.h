@@ -8,6 +8,7 @@
 #include "Pasto.h"
 #include "casa.h"
 #include "virtual_field.h"
+#include "Abeja.h"
 #define size_x 20
 #define size_y 15
 #define TOOGLE_CASA 1
@@ -26,6 +27,7 @@ public:
     Piedra *piedra;
     Casa *casa;
     Kibus *kibus;
+    Abeja *abeja;
     Pasto *pasto1;
     Pasto *pasto2;
     Pasto *pasto3;
@@ -48,6 +50,7 @@ public:
         piedra = new Piedra();
         casa = new Casa();
         pasto1 = new Pasto("images/pasto1.png");
+        abeja = new Abeja("images/abeja.png");
         toogle_selected = 0;
     }
 
@@ -76,6 +79,10 @@ public:
                     //cout<<aux<<","<<v->get_normalized_temp(aux)<<endl;
                     pasto1->drawing_in_background(background_with_draws,x,y,v->get_normalized_temp(aux>>5));
                 }
+                if(v->es_(aux,ABEJA))
+                {
+                    abeja->drawing_in_background(background_with_draws,x,y);
+                }
                 if(v->es_(aux,KIBUS))
                 {
                     kibus->drawing_in_background(background_with_draws,x,y);
@@ -91,7 +98,21 @@ public:
         cr->fill();
         return true;
     }
+    void mover_abejas()
+    {
+        /* TODO move "v->move"*/
+       v->mover_abejas();
+       drawing_area->queue_draw();
+    }
+    void move_kibus_in_path()
+    {
+        cell aux = v->path->at(0);
 
+        v->set_kibus(aux.x,aux.y);
+        v->path->erase(v->path->begin());
+        drawing_area->queue_draw();
+    }
+/*
     void move_kibus(int direction,bool reflejo = false)
     {
         switch(direction)
@@ -113,6 +134,7 @@ public:
         drawing_area->queue_draw();
 
     }
+
     void move_kibus_bresenham()
     {
 
@@ -120,7 +142,7 @@ public:
         drawing_area->queue_draw();
 
     }
-
+*/
 
 
     bool signal_button_press_event_callback(GdkEventButton *e)
@@ -130,13 +152,14 @@ public:
             int x_v = e->x/32;
             int y_v = e->y/32;
             cout<<"X: "<< x_v; cout<<", Y: "<<y_v<<endl;
+            cell c(x_v,y_v);
             switch (toogle_selected)
             {
                     case TOOGLE_CASA:
                         v->set_casa(x_v,y_v);
                     break;
                     case TOOGLE_KIBUS:
-                        v->set_kibus(x_v,y_v);
+                        v->set_kibus(x_v,y_v,true);
                         break;
                     case TOOGLE_OBSTACULO:
                         v->set_obstaculo(x_v,y_v);
@@ -145,6 +168,7 @@ public:
                         v->remove_obstaculo(x_v,y_v);
                         break;
                     default:
+                        //v->mover_abejas();
                         break;
 
 
